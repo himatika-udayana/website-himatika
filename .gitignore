@@ -12,3 +12,4 @@ npm-debug.log*
 .DS_Store
 coverage
 **/.DS_Store
+tsconfig.tsbuildinfo

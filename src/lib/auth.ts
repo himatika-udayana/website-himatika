@@ -72,6 +72,16 @@ export async function requireUser() {
   return user;
 }
 
+export async function requireVerifiedUser() {
+  const user = await requireUser();
+
+  if (!user.isVerified) {
+    redirect("/login?error=unverified");
+  }
+
+  return user;
+}
+
 export async function requireAdmin() {
   const user = await requireUser();
 
