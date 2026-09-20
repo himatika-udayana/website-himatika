@@ -1,0 +1,283 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  ANGGOTA
+  ADMIN
+}
+
+enum StatusAnggota {
+  PENGURUS
+  ANGGOTA
+  ALUMNI
+}
+
+enum StatusSemester {
+  GANJIL
+  GENAP
+}
+
+enum StatusRamaSubmission {
+  TERSIMPAN
+  TERKIRIM
+  GAGAL
+}
+
+enum StatusProduk {
+  TERSEDIA
+  HABIS
+}
+
+enum TipeQuizQuestion {
+  PILIHAN_GANDA
+  ISIAN_SINGKAT
+}
+
+enum StatusQuizAttempt {
+  BERLANGSUNG
+  SELESAI
+}
+
+enum KategoriArsip {
+  SOAL_UJIAN
+  MATERI_KULIAH
+  MODUL
+}
+
+enum SemesterArsip {
+  GANJIL
+  GENAP
+}
+
+enum AccessLevel {
+  PUBLIK
+  ANGGOTA
+}
+
+model User {
+  id          String        @id @db.Uuid
+  email       String        @unique
+  nim         String?       @unique
+  fullName    String        @map("full_name")
+  avatarUrl   String?       @map("avatar_url")
+  angkatan    Int?
+  role        Role          @default(ANGGOTA)
+  status      StatusAnggota @default(ANGGOTA)
+  isVerified  Boolean       @default(false) @map("is_verified")
+  divisiSlug  String?       @map("divisi_slug")
+  jabatan     String?
+
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  ramaSubmissions RamaSubmission[]
+  quizAttempts    QuizAttempt[]
+  quizSets        Quiz[]
+  userPoint       UserPoint?
+  arsipDiunggah   ArsipSoal[]
+
+  @@map("users")
+}
+
+model Semester {
+  id         String          @id @default(uuid()) @db.Uuid
+  tahunAjaran String         @map("tahun_ajaran")
+  jenis      StatusSemester
+  aktif      Boolean         @default(false)
+  submissions RamaSubmission[]
+
+  @@unique([tahunAjaran, jenis])
+  @@index([aktif])
+  @@map("rama_semesters")
+}
+
+model KategoriAspirasi {
+  id          String          @id @default(uuid()) @db.Uuid
+  urutan      Int
+  namaKategori String         @map("nama_kategori")
+  deskripsi   String?
+  aspirasi    RamaAspirasi[]
+
+  @@index([urutan])
+  @@map("kategori_aspirasi")
+}
+
+model RamaSubmission {
+  id           String               @id @default(uuid()) @db.Uuid
+  token        String               @unique @default(uuid()) @db.Uuid
+  userId       String               @map("user_id") @db.Uuid
+  semesterId   String               @map("semester_id") @db.Uuid
+  tanggalSubmit DateTime            @default(now()) @map("tanggal_submit")
+  status       StatusRamaSubmission @default(TERSIMPAN)
+
+  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  semester Semester       @relation(fields: [semesterId], references: [id], onDelete: Cascade)
+  aspirasi RamaAspirasi[]
+
+  @@unique([userId, semesterId])
+  @@index([semesterId])
+  @@index([status])
+  @@map("rama_submissions")
+}
+
+model RamaAspirasi {
+  id           String   @id @default(uuid()) @db.Uuid
+  submissionId String   @map("submission_id") @db.Uuid
+  kategoriId   String   @map("kategori_id") @db.Uuid
+  kepuasan     Int
+  isiAspirasi  String   @map("isi_aspirasi")
+
+  submission RamaSubmission  @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  kategori   KategoriAspirasi @relation(fields: [kategoriId], references: [id], onDelete: Cascade)
+
+  @@unique([submissionId, kategoriId])
+  @@index([kategoriId])
+  @@map("rama_aspirasi")
+}
+
+model ProdukKoperasi {
+  id             String       @id @default(uuid()) @db.Uuid
+  nama           String
+  deskripsi      String?
+  harga          Decimal      @db.Decimal(12, 2)
+  stok           Int          @default(0)
+  kategori       String?
+  imageUrl       String?      @map("image_url")
+  status         StatusProduk @default(TERSEDIA)
+  linkGformPesan String?      @map("link_gform_pesan")
+  isActive       Boolean      @default(true) @map("is_active")
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+
+  @@index([isActive])
+  @@map("produk_koperasi")
+}
+
+model Quiz {
+  id               String   @id @default(uuid()) @db.Uuid
+  judul            String
+  deskripsi        String?
+  topik            String?
+  tingkatKesulitan String?  @map("tingkat_kesulitan")
+  dibuatOlehId     String?  @map("dibuat_oleh_id") @db.Uuid
+  isActive         Boolean  @default(true) @map("is_active")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  dibuatOleh User?          @relation(fields: [dibuatOlehId], references: [id], onDelete: SetNull)
+  soal      QuizQuestion[]
+  attempts  QuizAttempt[]
+
+  @@index([topik])
+  @@index([tingkatKesulitan])
+  @@map("quizzes")
+}
+
+model QuizQuestion {
+  id                 String           @id @default(uuid()) @db.Uuid
+  quizId             String           @map("quiz_id") @db.Uuid
+  urutan             Int              @default(1)
+  tipe               TipeQuizQuestion @default(PILIHAN_GANDA)
+  teksSoal           String           @map("teks_soal")
+  poin               Int              @default(10)
+  pilihanA           String?          @map("pilihan_a")
+  pilihanB           String?          @map("pilihan_b")
+  pilihanC           String?          @map("pilihan_c")
+  pilihanD           String?          @map("pilihan_d")
+  pilihanE           String?          @map("pilihan_e")
+  jawabanBenarPg     String?          @map("jawaban_benar_pg")
+  jawabanBenarIsian  String?          @map("jawaban_benar_isian")
+
+  quiz     Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  jawaban QuizAnswer[]
+
+  @@unique([quizId, urutan])
+  @@index([quizId])
+  @@map("quiz_questions")
+}
+
+model QuizAttempt {
+  id           String            @id @default(uuid()) @db.Uuid
+  userId       String            @map("user_id") @db.Uuid
+  quizId       String            @map("quiz_id") @db.Uuid
+  skor         Int               @default(0)
+  totalPoin    Int               @default(0) @map("total_poin")
+  waktuMulai   DateTime          @default(now()) @map("waktu_mulai")
+  waktuSelesai DateTime?         @map("waktu_selesai")
+  status       StatusQuizAttempt @default(BERLANGSUNG)
+
+  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz    Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  jawaban QuizAnswer[]
+
+  @@index([userId])
+  @@index([quizId])
+  @@index([status])
+  @@map("quiz_attempts")
+}
+
+model QuizAnswer {
+  id             String  @id @default(uuid()) @db.Uuid
+  attemptId      String  @map("attempt_id") @db.Uuid
+  questionId     String  @map("question_id") @db.Uuid
+  jawabanDipilih String  @map("jawaban_dipilih")
+  isCorrect      Boolean @default(false) @map("is_correct")
+
+  attempt  QuizAttempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  question QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([attemptId, questionId])
+  @@map("quiz_answers")
+}
+
+model UserPoint {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String   @unique @map("user_id") @db.Uuid
+  totalPoin  Int      @default(0) @map("total_poin")
+  totalQuiz  Int      @default(0) @map("total_quiz")
+  totalBenar Int      @default(0) @map("total_benar")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([totalPoin])
+  @@map("user_points")
+}
+
+model MataKuliah {
+  id     String      @id @default(uuid()) @db.Uuid
+  kode   String      @unique
+  nama   String
+  arsip  ArsipSoal[]
+
+  @@map("mata_kuliah")
+}
+
+model ArsipSoal {
+  id            String         @id @default(uuid()) @db.Uuid
+  judul         String
+  deskripsi     String?
+  mataKuliahId  String         @map("mata_kuliah_id") @db.Uuid
+  tahun         Int
+  semester      SemesterArsip?
+  kategori      KategoriArsip
+  dosen         String?
+  linkGdrive    String         @map("link_gdrive")
+  accessLevel   AccessLevel    @default(ANGGOTA) @map("access_level")
+  uploaderId    String?        @map("uploader_id") @db.Uuid
+  createdAt     DateTime       @default(now()) @map("created_at")
+
+  mataKuliah MataKuliah @relation(fields: [mataKuliahId], references: [id], onDelete: Restrict)
+  uploader   User?      @relation(fields: [uploaderId], references: [id], onDelete: SetNull)
+
+  @@index([mataKuliahId, tahun])
+  @@index([kategori])
+  @@map("arsip_soal")
+}
