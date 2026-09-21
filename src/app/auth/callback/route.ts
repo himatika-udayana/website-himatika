@@ -11,9 +11,15 @@ export async function GET(request: Request) {
     const { error } = await supabase.auth.exchangeCodeForSession(code);
 
     if (!error) {
-      return NextResponse.redirect(new URL(next, requestUrl.origin));
+      const destination = new URL(next, requestUrl.origin);
+      if (destination.pathname === "/reset-password") {
+        destination.searchParams.set("recovery", "1");
+      }
+      return NextResponse.redirect(destination);
     }
   }
 
-  return NextResponse.redirect(new URL("/login?error=auth_failed", requestUrl.origin));
+  return NextResponse.redirect(
+    new URL("/login?error=auth_failed", requestUrl.origin),
+  );
 }
