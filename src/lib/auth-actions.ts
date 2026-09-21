@@ -6,6 +6,7 @@ import { prisma } from "@/src/lib/prisma";
 import { createServerClient } from "@/src/lib/supabase/server";
 
 export type ActionState = {
+  ok?: boolean;
   error?: string;
   success?: string;
 };
@@ -191,6 +192,11 @@ export async function forgotPasswordAction(_prevState: ActionState, formData: Fo
 
 export async function resetPasswordAction(_prevState: ActionState, formData: FormData): Promise<ActionState> {
   const password = String(formData.get("password") ?? "");
+  const confirmPassword = String(formData.get("confirmPassword") ?? "");
+
+  if (password !== confirmPassword) {
+    return { ok: false, error: "Kata sandi dan konfirmasi tidak cocok" };
+  }
 
   if (!password || password.length < 8) {
     return { error: "Password baru minimal 8 karakter." };
