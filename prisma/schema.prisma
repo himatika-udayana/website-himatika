@@ -35,9 +35,9 @@ enum StatusProduk {
   HABIS
 }
 
-enum TipeQuizQuestion {
-  PILIHAN_GANDA
-  ISIAN_SINGKAT
+enum TipeSoalQuiz {
+  PG
+  ISIAN
 }
 
 enum StatusQuizAttempt {
@@ -174,7 +174,7 @@ model QuizQuestion {
   id                String           @id @default(uuid()) @db.Uuid
   quizId            String           @map("quiz_id") @db.Uuid
   urutan            Int              @default(1)
-  tipe              TipeQuizQuestion @default(PILIHAN_GANDA)
+  tipe              TipeSoalQuiz @default(PG)
   teksSoal          String           @map("teks_soal")
   poin              Int              @default(10)
   pilihanA          String?          @map("pilihan_a")
