@@ -77,10 +77,14 @@ export type Bidang =
 
 export type Jabatan =
   | "ketua"
-  | "wakil-ketua"
-  | "sekretaris"
-  | "bendahara"
-  | "koordinator-bidang"
+  | "wakil-ketua-1"
+  | "wakil-ketua-2"
+  | "sekretaris-1"
+  | "sekretaris-2"
+  | "bendahara-1"
+  | "bendahara-2"
+  | "kabid"
+  | "wakabid"
   | "staff";
 
 export interface Pengurus {
