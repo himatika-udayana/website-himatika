@@ -1,7 +1,7 @@
 import type { Beranda } from "@/src/types/content";
 
 export const beranda: Beranda = {
-  namaWebsite: "[PLACEHOLDER] Nama website HIMATIKA",
+  namaWebsite: "HIMATIKA Universitas Udayana",
   visi: "[PLACEHOLDER] Visi organisasi dari data Django.",
   statistik: {
     statistik1: {
@@ -23,9 +23,10 @@ export const beranda: Beranda = {
   },
   youtubeEmbed: "https://www.youtube.com/embed/PLACEHOLDER",
   kontak: {
-    alamat: "[PLACEHOLDER] alamat",
-    email: "[PLACEHOLDER] email_kontak",
-    telepon: "[PLACEHOLDER] no_hp",
+    alamat:
+      "Jl. Raya Kampus Unud, Jimbaran, Kuta Selatan, Kabupaten Badung, Bali 80361",
+    email: "himatikasandya2024@gmail.com",
+    telepon: "+62 812-3456-7890",
     instagram: "[PLACEHOLDER] instagram_link",
     website: "[PLACEHOLDER] website_link",
   },

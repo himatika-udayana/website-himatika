@@ -26,20 +26,39 @@ function validateLegacyMemberData(nim: string, angkatan: string) {
     throw new Error("NIM dan angkatan wajib diisi.");
   }
 
-  if (!/^\d{10}$/.test(nim)) {
-    throw new Error("NIM harus terdiri dari 10 digit angka.");
-  }
-
   if (!/^\d{4}$/.test(angkatan)) {
     throw new Error("Angkatan harus berupa tahun, misalnya 2024.");
   }
 
-  if (nim.slice(2, 7) !== "08541") {
-    throw new Error("NIM bukan milik Program Studi Matematika FMIPA Universitas Udayana.");
+  if (Number(angkatan) >= 2026) {
+    // TODO: pola NIM 12-digit angkatan 2026 berdasarkan info internal,
+    // BELUM diverifikasi ke sumber resmi kampus — uji dengan NIM asli sebelum
+    // final.
+    if (!/^\d{12}$/.test(nim)) {
+      throw new Error("NIM angkatan 2026 ke atas harus terdiri dari 12 digit angka.");
+    }
+
+    if (nim.slice(0, 2) !== angkatan.slice(-2)) {
+      throw new Error("Dua digit pertama NIM 2026 ke atas tidak sesuai dengan angkatan.");
+    }
+
+    if (nim.slice(2, 9) !== "0830411") {
+      throw new Error("Prefix NIM 2026 ke atas harus sesuai dengan Program Studi Matematika FMIPA Universitas Udayana.");
+    }
+
+    return;
+  }
+
+  if (!/^\d{10}$/.test(nim)) {
+    throw new Error("NIM angkatan sebelum 2026 harus terdiri dari 10 digit angka.");
   }
 
   if (nim.slice(0, 2) !== angkatan.slice(-2)) {
-    throw new Error("Dua digit pertama NIM tidak sesuai dengan angkatan.");
+    throw new Error("Dua digit pertama NIM sebelum 2026 tidak sesuai dengan angkatan.");
+  }
+
+  if (nim.slice(2, 7) !== "08541") {
+    throw new Error("Prefix NIM sebelum 2026 harus sesuai dengan Program Studi Matematika FMIPA Universitas Udayana.");
   }
 }
 
