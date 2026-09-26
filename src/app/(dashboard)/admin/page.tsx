@@ -36,6 +36,11 @@ const adminSections = [
     description: "Kelola daftar mata kuliah yang digunakan arsip.",
     href: "/admin/arsip/mata-kuliah",
   },
+  {
+    title: "MathQuiz",
+    description: "Kelola kuis dan soal pilihan ganda atau isian singkat.",
+    href: "/admin/mathquiz",
+  },
 ];
 
 export default function AdminPage() {
