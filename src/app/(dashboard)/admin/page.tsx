@@ -26,6 +26,16 @@ const adminSections = [
     description: "Kelola katalog produk, tautan pemesanan, dan ketersediaan koperasi.",
     href: "/admin/koperasi",
   },
+  {
+    title: "Arsip Soal & Materi",
+    description: "Kelola arsip perkuliahan dan tautan Google Drive.",
+    href: "/admin/arsip",
+  },
+  {
+    title: "Mata Kuliah",
+    description: "Kelola daftar mata kuliah yang digunakan arsip.",
+    href: "/admin/arsip/mata-kuliah",
+  },
 ];
 
 export default function AdminPage() {
