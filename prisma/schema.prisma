@@ -270,3 +270,15 @@ model ArsipSoal {
   @@index([kategori])
   @@map("arsip_soal")
 }
+
+model RedirectLink {
+  id        String   @id @default(uuid()) @db.Uuid
+  slug      String   @unique
+  targetUrl String   @map("target_url")
+  label     String?
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("redirect_links")
+}

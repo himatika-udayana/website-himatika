@@ -16,6 +16,11 @@ const adminSections = [
     description: "Kelola kategori RAMA tanpa menghapus kategori yang masih memiliki jawaban.",
     href: "/admin/rama/kategori",
   },
+  {
+    title: "Redirect Link",
+    description: "Buat dan kelola URL pendek menuju formulir atau layanan eksternal.",
+    href: "/admin/redirect-link",
+  },
 ];
 
 export default function AdminPage() {
