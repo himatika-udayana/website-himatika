@@ -111,8 +111,7 @@ export default function HomePage() {
                 Tentang Kami <span className="text-blue-600">HIMATIKA</span>
               </h2>
               <p className="mt-4 text-justify leading-relaxed text-slate-700">
-                [PLACEHOLDER] Ringkasan sejarah dan peran HIMATIKA sebagai wadah
-                mahasiswa Matematika.
+                "Program Studi Matematika FMIPA Universitas Udayana resmi memperoleh izin penyelenggaraan melalui SK Dirjen Dikti Nomor 2843/D/T/2001 pada 31 Agustus 2001 dan mulai menerima mahasiswa angkatan pertama pada tahun akademik 2001/2002. Sejak berdiri, program studi ini telah melalui berbagai proses evaluasi, perpanjangan izin, dan akreditasi untuk meningkatkan mutu pendidikan. Akreditasi pertama diperoleh pada tahun 2008 dengan peringkat B, yang kemudian diperpanjang pada tahun 2013 dan 2018. Selanjutnya, berdasarkan keputusan LAMSAMA Nomor 079/SK/LAMSAMA/Akred/S/VII/2023, Program Studi Matematika Universitas Udayana memperoleh akreditasi Baik Sekali yang berlaku mulai 31 Juli 2023 hingga 31 Juli 2028.
               </p>
             </div>
             <Link

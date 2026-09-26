@@ -2,32 +2,14 @@ import type { Beranda } from "@/src/types/content";
 
 export const beranda: Beranda = {
   namaWebsite: "HIMATIKA Universitas Udayana",
-  visi: "[PLACEHOLDER] Visi organisasi dari data Django.",
-  statistik: {
-    statistik1: {
-      label: "[PLACEHOLDER] Label statistik 1",
-      nilai: "[PLACEHOLDER] Nilai",
-    },
-    statistik2: {
-      label: "[PLACEHOLDER] Label statistik 2",
-      nilai: "[PLACEHOLDER] Nilai",
-    },
-    statistik3: {
-      label: "[PLACEHOLDER] Label statistik 3",
-      nilai: "[PLACEHOLDER] Nilai",
-    },
-    statistik4: {
-      label: "[PLACEHOLDER] Label statistik 4",
-      nilai: "[PLACEHOLDER] Nilai",
-    },
-  },
-  youtubeEmbed: "https://www.youtube.com/embed/PLACEHOLDER",
+  visi: "Mewujudkan Himpunan Mahasiswa Matematika Universitas Udayana yang solid, berdaya guna, dan berperan aktif dalam menciptakan lingkungan akademik yang harmonis, kolaboratif, serta berdampak positif bagi civitas akademika dan masyarakat.",
+  youtubeEmbed: "https://www.youtube.com/embed/1AstNu6XmMY?si=yi5PQcRkrzSuCcmi",
   kontak: {
     alamat:
       "Jl. Raya Kampus Unud, Jimbaran, Kuta Selatan, Kabupaten Badung, Bali 80361",
     email: "himatikasandya2024@gmail.com",
-    telepon: "+62 812-3456-7890",
-    instagram: "[PLACEHOLDER] instagram_link",
-    website: "[PLACEHOLDER] website_link",
+    telepon: "+62 85-945-385-599 (Mang Sri)",
+    instagram: "@himatika.udayana",
+    website: "himatikaunud.com",
   },
 };

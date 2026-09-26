@@ -116,7 +116,6 @@ export interface StatistikBeranda {
 export interface Beranda {
   namaWebsite: string;
   visi: string;
-  statistik: StatistikBeranda;
   youtubeEmbed: string;
   kontak: {
     alamat: string;

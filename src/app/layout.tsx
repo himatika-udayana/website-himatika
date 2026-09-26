@@ -8,6 +8,9 @@ const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 export const metadata: Metadata = {
   title: "HIMATIKA",
   description: "HIMATIKA platform",
+  icons: {
+    icon: "/images/LOGO.png",
+  },
 };
 
 export default function RootLayout({
