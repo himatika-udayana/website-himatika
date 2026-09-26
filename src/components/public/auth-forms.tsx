@@ -3,16 +3,16 @@
 import Link from "next/link";
 import { useActionState, useState } from "react";
 import {
-  ArrowLeft,
-  CheckCircle2,
-  Eye,
-  EyeOff,
-  Lock,
-  Mail,
-  Send,
-  User,
-  UserPlus,
-} from "lucide-react";
+  FiArrowLeft as ArrowLeft,
+  FiCheckCircle as CheckCircle2,
+  FiEye as Eye,
+  FiEyeOff as EyeOff,
+  FiLock as Lock,
+  FiMail as Mail,
+  FiSend as Send,
+  FiUser as User,
+  FiUserPlus as UserPlus,
+} from "react-icons/fi";
 import { Button } from "@/src/components/ui/button";
 import { Checkbox } from "@/src/components/ui/checkbox";
 import { Input } from "@/src/components/ui/input";

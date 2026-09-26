@@ -99,8 +99,6 @@ export interface ProgramKerja {
   deskripsi: string;
   foto: string | null;
   bidang: Bidang;
-  progres: number;
-  status: "Rencana" | "Berjalan" | "Selesai";
 }
 
 export interface Divisi {

@@ -1,17 +1,13 @@
 import Link from "next/link";
 import {
-  ArrowRight,
-  Calendar,
-  CheckCircle2,
-  Clock,
-  Globe,
-  Mail,
-  MapPin,
-  Phone,
-  Send,
-  Users,
-  UserCheck,
-} from "lucide-react";
+  FiArrowRight as ArrowRight,
+  FiClock as Clock,
+  FiGlobe as Globe,
+  FiMail as Mail,
+  FiMapPin as MapPin,
+  FiPhone as Phone,
+  FiSend as Send,
+} from "react-icons/fi";
 import {
   Accordion,
   AccordionContent,
@@ -22,37 +18,12 @@ import { Card } from "@/src/components/ui/card";
 import { Reveal } from "@/src/components/ui/reveal";
 import { beranda } from "@/src/data/beranda";
 import { faq } from "@/src/data/faq";
+import { portalMenu } from "@/src/data/portal-menu";
 import { getAllPosts } from "@/src/lib/blog";
 import { PostTypeBadge } from "@/src/components/public/post-type-details";
 
 const mapEmbed =
   "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2707.949100937901!2d115.17011348708772!3d-8.799166212800733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd244bc3acab8d9%3A0x7fba454d24527b74!2sFakultas%20Matematika%20dan%20Ilmu%20Pengetahuan%20Alam!5e0!3m2!1sid!2sid!4v1786333704890!5m2!1sid!2sid";
-const portal = [
-  [
-    "Profil HIMATIKA",
-    "Kenali sejarah, visi, misi, dan struktur organisasi.",
-    "/tentang-kami",
-  ],
-  [
-    "Divisi",
-    "Jelajahi bidang dan divisi yang menggerakkan organisasi.",
-    "/divisi",
-  ],
-  [
-    "Blog",
-    "Informasi terkini dan cerita seputar mahasiswa matematika.",
-    "/blog",
-  ],
-  [
-    "MathQuiz",
-    "Uji kemampuan matematikamu lewat kuis interaktif.",
-    "/mathquiz",
-  ],
-  ["RAMA", "Rumah Aspirasi Mahasiswa Matematika.", "/anggota/rama"],
-  ["Arsip", "Dokumen dan publikasi organisasi.", "/arsip"],
-  ["Koperasi", "Layanan koperasi mahasiswa.", "/anggota/koperasi"],
-] as const;
-
 export default function HomePage() {
   const posts = getAllPosts().slice(0, 5);
   return (
@@ -104,16 +75,16 @@ export default function HomePage() {
             </p>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {portal.map(([title, description, href], index) => (
+            {portalMenu.map(({ title, description, href, icon: Icon }) => (
               <Link
                 key={href}
                 href={href}
                 className="group flex h-full items-start gap-4 rounded-2xl bg-white p-5 shadow-sm transition hover:-translate-y-2 hover:shadow-lg"
               >
                 <div
-                  className={`flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-lg ${index % 2 ? "bg-cyan-50 text-cyan-700" : "bg-blue-50 text-blue-700"}`}
+                  className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-700"
                 >
-                  <span className="text-xl font-bold">{index + 1}</span>
+                  <Icon className="h-6 w-6" />
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-slate-900">
@@ -162,26 +133,6 @@ export default function HomePage() {
                   allowFullScreen
                 />
               </div>
-            </div>
-            <div className="flex gap-4 overflow-x-auto px-4 sm:grid sm:grid-cols-4 sm:px-0">
-              {Object.values(beranda.statistik).map((stat, index) => (
-                <div
-                  key={stat.label}
-                  className="min-w-[140px] flex-shrink-0 space-y-2 rounded-xl border border-slate-200 bg-white p-5 text-center shadow-sm"
-                >
-                  <span className="mx-auto flex h-8 w-8 items-center justify-center rounded-full bg-blue-50 text-blue-700">
-                    {index === 0 ? (
-                      <Users className="h-4 w-4" />
-                    ) : (
-                      <UserCheck className="h-4 w-4" />
-                    )}
-                  </span>
-                  <p className="text-2xl font-semibold text-slate-900">
-                    {stat.nilai}
-                  </p>
-                  <p className="text-sm text-slate-600">{stat.label}</p>
-                </div>
-              ))}
             </div>
           </Reveal>
         </div>

@@ -1,11 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Badge } from "@/src/components/ui/badge";
+import { FiChevronRight, FiUsers as Users } from "react-icons/fi";
+import { GiBriefcase as Briefcase, GiBullseye as Megaphone, GiGraduateCap as GraduationCap, GiPalette as Palette } from "react-icons/gi";
+import { FaCrown as Crown } from "react-icons/fa";
+import { RiHandHeartLine as HeartHandshake } from "react-icons/ri";
 import { Card } from "@/src/components/ui/card";
-import { Progress } from "@/src/components/ui/progress";
 import { Reveal } from "@/src/components/ui/reveal";
-import type { Divisi } from "@/src/types/content";
+import type { Bidang, Divisi } from "@/src/types/content";
 
 const bidangList = [
   ["inti", "Pengurus Inti"],
@@ -19,6 +21,16 @@ const bidangList = [
   ["bidang-4-pengabdian-masyarakat", "Bidang IV Pengabdian Masyarakat"],
   ["bidang-5-komunikasi-informasi", "Bidang V Komunikasi dan Informasi"],
 ] as const;
+
+const bidangIconMap: Record<Bidang, React.ElementType> = {
+  inti: Crown,
+  bph: Users,
+  "bidang-1-pendidikan-penalaran": GraduationCap,
+  "bidang-2-minat-bakat": Palette,
+  "bidang-3-kewirausahaan-kesejahteraan": Briefcase,
+  "bidang-4-pengabdian-masyarakat": HeartHandshake,
+  "bidang-5-komunikasi-informasi": Megaphone,
+} as const;
 
 export function DivisiRegistry({ divisi }: { divisi: Divisi }) {
   const [activeBidang, setActiveBidang] =
@@ -41,6 +53,7 @@ export function DivisiRegistry({ divisi }: { divisi: Divisi }) {
         <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
           {bidangList.map(([key, label]) => {
             const selected = activeBidang === key;
+            const Icon = bidangIconMap[key];
             return (
               <button
                 key={key}
@@ -51,14 +64,14 @@ export function DivisiRegistry({ divisi }: { divisi: Divisi }) {
                 <span
                   className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl text-sm font-bold ${selected ? "bg-blue-600 text-white" : "bg-blue-50 text-blue-700"}`}
                 >
-                  {label.slice(0, 1)}
+                  <Icon className="h-5 w-5" />
                 </span>
                 <span
                   className={`flex-1 text-sm font-semibold ${selected ? "text-blue-700" : "text-slate-700"}`}
                 >
                   {label}
                 </span>
-                <span className="text-slate-300">›</span>
+                <FiChevronRight className="h-4 w-4 text-slate-300" />
               </button>
             );
           })}
@@ -134,14 +147,6 @@ export function DivisiRegistry({ divisi }: { divisi: Divisi }) {
                     key={program.nama}
                     className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition hover:shadow-lg"
                   >
-                    <div className="flex items-center justify-between px-5 pt-5">
-                      <Badge className="rounded-full border-0 bg-blue-100 text-blue-700">
-                        {program.status}
-                      </Badge>
-                      <span className="text-xs text-slate-500">
-                        {program.progres}%
-                      </span>
-                    </div>
                     <div className="space-y-4 p-5">
                       <h4 className="text-lg font-semibold text-slate-900">
                         {program.nama}
@@ -149,16 +154,6 @@ export function DivisiRegistry({ divisi }: { divisi: Divisi }) {
                       <p className="text-sm leading-relaxed text-slate-600">
                         {program.deskripsi}
                       </p>
-                      <div>
-                        <div className="mb-2 flex justify-between text-xs text-slate-500">
-                          <span>Progres</span>
-                          <span>{program.progres}%</span>
-                        </div>
-                        <Progress
-                          value={program.progres}
-                          className="h-2 rounded-full"
-                        />
-                      </div>
                     </div>
                   </Card>
                 ))

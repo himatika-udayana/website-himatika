@@ -1,18 +1,18 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
-  ArrowLeft,
-  Award,
-  BookOpen,
-  Calendar,
-  Clock,
-  ExternalLink,
-  Image as ImageIcon,
-  Info,
-  MapPin,
-  Tag,
-  User,
-} from "lucide-react";
+  FiArrowLeft as ArrowLeft,
+  FiAward as Award,
+  FiBookOpen as BookOpen,
+  FiCalendar as Calendar,
+  FiClock as Clock,
+  FiExternalLink as ExternalLink,
+  FiInfo as Info,
+  FiMapPin as MapPin,
+  FiTag as Tag,
+  FiUser as User,
+} from "react-icons/fi";
+import { FaImage as ImageIcon } from "react-icons/fa";
 import { Badge } from "@/src/components/ui/badge";
 import { Card } from "@/src/components/ui/card";
 import { Reveal } from "@/src/components/ui/reveal";
