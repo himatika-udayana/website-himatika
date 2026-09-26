@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
+import { beranda } from "@/src/data/beranda";
 
 const navItems = [
   ["Beranda", "/"],
@@ -89,6 +90,11 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
 }
 
 export function Footer() {
+  const websiteUrl = /^https?:\/\//i.test(beranda.kontak.website)
+    ? beranda.kontak.website
+    : `https://${beranda.kontak.website}`;
+  const instagramUsername = beranda.kontak.instagram.replace(/^@/, "");
+
   return (
     <footer className="border-t border-slate-200 bg-slate-950 text-slate-300">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.4fr_1fr_1.2fr] lg:px-8">
@@ -104,9 +110,8 @@ export function Footer() {
               <p className="text-sm text-slate-400">Universitas Udayana</p>
             </div>
           </div>
-          <p className="mt-5 text-sm leading-7 text-slate-400">
-            Komunitas matematis yang menghubungkan pembelajaran, kepemimpinan,
-            dan pengabdian untuk kemajuan mahasiswa.
+          <p className="mt-5 max-w-prose text-sm leading-7 text-slate-400">
+            {beranda.visi}
           </p>
         </div>
         <div>
@@ -124,23 +129,34 @@ export function Footer() {
         <div>
           <h3 className="text-lg font-semibold text-white">Kontak</h3>
           <ul className="mt-5 space-y-4 text-sm text-slate-400">
-            <li>himatika@unud.ac.id</li>
-            <li>Jimbaran, Bali, Indonesia</li>
+            <li>{beranda.kontak.email}</li>
+            <li>{beranda.kontak.alamat}</li>
+            <li>{beranda.kontak.telepon}</li>
             <li>
               <a
-                href="https://himatika.unud.ac.id"
+                href={`https://instagram.com/${instagramUsername}`}
                 target="_blank"
                 rel="noreferrer"
                 className="text-blue-300 hover:text-white"
               >
-                himatika.unud.ac.id
+                {beranda.kontak.instagram}
+              </a>
+            </li>
+            <li>
+              <a
+                href={websiteUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-300 hover:text-white"
+              >
+                {beranda.kontak.website}
               </a>
             </li>
           </ul>
         </div>
       </div>
       <div className="border-t border-slate-800 px-4 py-6 text-center text-sm text-slate-500">
-        Copyright © HIMATIKA Universitas Udayana.
+        Copyright © {beranda.namaWebsite}.
       </div>
     </footer>
   );
