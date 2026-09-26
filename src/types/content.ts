@@ -48,6 +48,7 @@ export interface StatistikWebsite {
 export interface FilosofiLogo {
   nama: string;
   deskripsi: string;
+  gambar?: string;
 }
 
 export interface ProfilOrganisasi {

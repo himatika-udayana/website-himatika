@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { profil } from "@/src/data/profil";
 import { Reveal } from "@/src/components/ui/reveal";
 
@@ -110,9 +111,17 @@ export default function ProfilPage() {
         <section className="relative overflow-hidden px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
           <div className="relative mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-2">
             <div className="flex items-center justify-center">
-              <div className="relative flex h-56 w-56 items-center justify-center rounded-full bg-gradient-to-br from-blue-400/30 to-cyan-300/30 text-7xl font-bold text-blue-700 shadow-inner [animation:logo-float_5s_ease-in-out_infinite]">
+              <div className="relative flex h-56 w-56 items-center justify-center rounded-full bg-gradient-to-br from-blue-400/30 to-cyan-300/30 shadow-inner [animation:logo-float_5s_ease-in-out_infinite]">
                 <span className="absolute inset-4 rounded-full bg-cyan-300/30 blur-3xl [animation:glow-pulse_4s_ease-in-out_infinite]" />
-                Σ
+                {profil.logo ? (
+                  <Image
+                    src={profil.logo}
+                    alt="Logo HIMATIKA"
+                    width={160}
+                    height={160}
+                    className="relative z-10 h-40 w-40 object-contain"
+                  />
+                ) : null}
               </div>
             </div>
             <div>
@@ -133,9 +142,19 @@ export default function ProfilPage() {
                     className="rounded-2xl border border-white/60 bg-white/70 p-5 shadow-sm backdrop-blur-xl"
                   >
                     <div className="flex items-start gap-3">
-                      <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 text-sm font-bold text-white">
-                        {index + 1}
-                      </span>
+                      {item.gambar ? (
+                        <Image
+                          src={item.gambar}
+                          alt={item.nama}
+                          width={32}
+                          height={32}
+                          className="h-8 w-8 flex-shrink-0 object-contain"
+                        />
+                      ) : (
+                        <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 text-sm font-bold text-white">
+                          {index + 1}
+                        </span>
+                      )}
                       <div>
                         <h3 className="font-semibold text-slate-900">
                           {item.nama}

@@ -6,34 +6,35 @@ export const profil: ProfilOrganisasi = {
   visi:
     "Mewujudkan Himpunan Mahasiswa Matematika Universitas Udayana yang solid, berdaya guna, dan berperan aktif dalam menciptakan lingkungan akademik yang harmonis, kolaboratif, serta berdampak positif bagi civitas akademika dan masyarakat.",
   periodeKepengurusan: "2026",
-  logo: null,
+  logo: "/images/LOGO.png",
   misi: [
-    "Membangun budaya keilmuan matematika yang aktif dan kolaboratif.",
-    "Mewadahi kreativitas dan pengembangan minat bakat mahasiswa.",
-    "Menumbuhkan kepedulian sosial melalui program pengabdian masyarakat.",
-    "Memperkuat kolaborasi antar anggota, alumni, dan mitra organisasi.",
-    "Mengelola organisasi secara transparan, profesional, dan akuntabel.",
+    "Menumbuhkan rasa kebersamaan dan solidaritas di antara seluruh anggota dan fungsionaris HIMATIKA melalui kegiatan internal yang inklusif, komunikatif, dan berkelanjutan.",
+    "Mengoptimalkan kinerja dan koordinasi antarbidang agar setiap program kerja berjalan efektif, efisien, dan berdampak nyata, yang dapat meningkatkan citra HIMATIKA UNUD sebagai organisasi yang aktif, profesional, dan berintegritas melalui kegiatan akademik, sosial, dan kolaboratif.",
+    "Mendorong partisipasi aktif mahasiswa matematika dalam kegiatan ilmiah, sosial, dan pengembangan diri di tingkat fakultas maupun universitas.",
+    "Menjalin sinergi dan kolaborasi dengan himpunan lain, lembaga kampus, serta pihak eksternal untuk memperluas jejaring dan memperkuat eksistensi HIMATIKA UNUD.",
   ],
   filosofiLogo: [
     {
-      nama: "Simbol Sigma (Σ)",
-      deskripsi:
-        "Melambangkan penjumlahan dan kekuatan kolektif seluruh anggota HIMATIKA.",
+      nama: "Lingkaran",
+      deskripsi: "Lingkaran melambangkan tali persaudaraan yang tidak ada putusnya.",
+      gambar: "/images/LINGKARAN.png",
     },
     {
-      nama: "Warna Biru",
+      nama: "Segitiga",
       deskripsi:
-        "Merepresentasikan intelektualitas, ketenangan, dan profesionalisme organisasi.",
+        "Segitiga melambangkan tiga kompetensi yang ada di Program Studi Matematika FMIPA Unud.",
+      gambar: "/images/SEGITIGA.png",
     },
     {
-      nama: "Bentuk Lingkaran",
+      nama: "Zigma",
       deskripsi:
-        "Menggambarkan kesatuan dan kekeluargaan yang tidak terputus antar anggota.",
+        "Sigma melambangkan suatu totalitas mahasiswa dalam organisasi Himatika FMIPA Unud.",
+      gambar: "/images/ZIGMA.png",
     },
     {
-      nama: "Garis Tegas",
-      deskripsi:
-        "Mencerminkan ketepatan dan logika berpikir khas ilmu matematika.",
+      nama: "Warna Hitam",
+      deskripsi: "Warna hitam melambangkan adanya perbedaan karakter dan pemikiran, namun tetap dalam satu keluarga Himatika FMIPA Unud.",
+      gambar: "/images/WARNAHITAM.png",
     },
   ],
   timeline: [
