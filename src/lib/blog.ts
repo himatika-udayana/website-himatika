@@ -104,8 +104,21 @@ function parsePost(fileName: string): Post {
 }
 
 export function getAllPosts(): Post[] {
-  return fs
-    .readdirSync(blogDirectory)
+  let fileNames: string[];
+  try {
+    fileNames = fs.readdirSync(blogDirectory);
+  } catch (error) {
+    if (
+      error instanceof Error &&
+      "code" in error &&
+      error.code === "ENOENT"
+    ) {
+      return [];
+    }
+    throw error;
+  }
+
+  return fileNames
     .filter((fileName) => fileName.endsWith(".mdx"))
     .map(parsePost)
     .filter((post) => post.status === "published");
