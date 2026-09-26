@@ -21,6 +21,11 @@ const adminSections = [
     description: "Buat dan kelola URL pendek menuju formulir atau layanan eksternal.",
     href: "/admin/redirect-link",
   },
+  {
+    title: "Produk Koperasi",
+    description: "Kelola katalog produk, tautan pemesanan, dan ketersediaan koperasi.",
+    href: "/admin/koperasi",
+  },
 ];
 
 export default function AdminPage() {

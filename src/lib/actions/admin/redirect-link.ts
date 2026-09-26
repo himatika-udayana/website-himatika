@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/src/lib/prisma";
 import { requireAdmin } from "@/src/lib/auth";
 import { RESERVED_SLUG_SET } from "@/src/lib/reserved-slugs";
+import { validateHttpUrl } from "@/src/lib/http-url";
 
 export type RedirectLinkActionResult =
   | { ok: true }
@@ -25,21 +26,6 @@ function validateSlug(slug: string) {
     throw new Error("Slug tersebut dicadangkan untuk route aplikasi.");
   }
   return normalizedSlug;
-}
-
-function validateTargetUrl(targetUrl: string) {
-  let url: URL;
-  try {
-    url = new URL(targetUrl.trim());
-  } catch {
-    throw new Error("Target harus berupa URL lengkap yang valid.");
-  }
-
-  if (url.protocol !== "http:" && url.protocol !== "https:") {
-    throw new Error("Target URL harus menggunakan protokol HTTP atau HTTPS.");
-  }
-
-  return url.toString();
 }
 
 function getErrorMessage(error: unknown, fallback: string) {
@@ -69,7 +55,7 @@ export async function createRedirectLink(
     await prisma.redirectLink.create({
       data: {
         slug: validateSlug(slug),
-        targetUrl: validateTargetUrl(targetUrl),
+        targetUrl: validateHttpUrl(targetUrl, "Target"),
         label: label?.trim() || null,
       },
     });
@@ -90,7 +76,7 @@ export async function updateRedirectLink(
   try {
     const update: { slug?: string; targetUrl?: string; label?: string | null } = {};
     if (data.slug !== undefined) update.slug = validateSlug(data.slug);
-    if (data.targetUrl !== undefined) update.targetUrl = validateTargetUrl(data.targetUrl);
+    if (data.targetUrl !== undefined) update.targetUrl = validateHttpUrl(data.targetUrl, "Target");
     if (data.label !== undefined) update.label = data.label?.trim() || null;
     if (Object.keys(update).length === 0) {
       return { ok: false, error: "Tidak ada perubahan untuk disimpan." };
