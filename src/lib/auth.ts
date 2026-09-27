@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { redirect } from "next/navigation";
 import { prisma } from "@/src/lib/prisma";
 import { createServerClient } from "@/src/lib/supabase/server";
@@ -9,11 +10,10 @@ export type CurrentUser = {
   nim: string | null;
   angkatan: number | null;
   role: "ANGGOTA" | "ADMIN";
-  isVerified: boolean;
-  status: "PENGURUS" | "ANGGOTA" | "ALUMNI";
+  emailConfirmed: boolean;
 };
 
-export async function getCurrentUser(): Promise<CurrentUser | null> {
+const getCurrentUserCached = cache(async (): Promise<CurrentUser | null> => {
   const supabase = await createServerClient();
   const {
     data: { user },
@@ -31,16 +31,12 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
     update: {
       email: user.email ?? fallbackEmail,
       fullName: user.user_metadata?.full_name ?? user.user_metadata?.name ?? user.email ?? "Pengguna",
-      avatarUrl: user.user_metadata?.avatar_url ?? null,
     },
     create: {
       id: user.id,
       email: user.email ?? fallbackEmail,
       fullName: user.user_metadata?.full_name ?? user.user_metadata?.name ?? user.email ?? "Pengguna",
-      avatarUrl: user.user_metadata?.avatar_url ?? null,
       role: "ANGGOTA",
-      status: "ANGGOTA",
-      isVerified: false,
       nim: null,
       angkatan: null,
     },
@@ -53,9 +49,12 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
     nim: profile.nim,
     angkatan: profile.angkatan,
     role: profile.role,
-    isVerified: profile.isVerified,
-    status: profile.status,
+    emailConfirmed: Boolean(user.email_confirmed_at ?? user.confirmed_at),
   };
+});
+
+export async function getCurrentUser(): Promise<CurrentUser | null> {
+  return getCurrentUserCached();
 }
 
 function profileFallbackEmail(email: string) {
@@ -75,7 +74,7 @@ export async function requireUser() {
 export async function requireVerifiedUser() {
   const user = await requireUser();
 
-  if (!user.isVerified) {
+  if (!user.emailConfirmed) {
     redirect("/login?error=unverified");
   }
 
