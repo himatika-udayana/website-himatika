@@ -153,6 +153,12 @@ export const divisi: Divisi = {
       jabatan: "wakabid",
     },
     {
+      nama: "Nova",
+      foto: "https://res.cloudinary.com/kubelvyq/image/upload/f_auto/pengurus/Nova_pdwp2w",
+      bidang: "bidang-5-komunikasi-informasi",
+      jabatan: "staff",
+    },
+    {
       nama: "Aghni",
       foto: "https://res.cloudinary.com/kubelvyq/image/upload/f_auto/pengurus/Aghni_hosd11",
       bidang: "bidang-5-komunikasi-informasi",
@@ -179,12 +185,6 @@ export const divisi: Divisi = {
     {
       nama: "Mang Sri",
       foto: "https://res.cloudinary.com/kubelvyq/image/upload/f_auto/pengurus/Mang_Sri_fvxjfs",
-      bidang: "bidang-5-komunikasi-informasi",
-      jabatan: "staff",
-    },
-    {
-      nama: "Nova",
-      foto: "https://res.cloudinary.com/kubelvyq/image/upload/f_auto/pengurus/Nova_pdwp2w",
       bidang: "bidang-5-komunikasi-informasi",
       jabatan: "staff",
     },
@@ -237,6 +237,12 @@ export const divisi: Divisi = {
       jabatan: "kabid",
     },
     {
+      nama: "Devina",
+      foto: "https://res.cloudinary.com/kubelvyq/image/upload/f_auto/pengurus/Dedep_vkdzgi",
+      bidang: "bidang-1-pendidikan-penalaran",
+      jabatan: "wakabid",
+    },
+    {
       nama: "Ayu Shanty",
       foto: "https://res.cloudinary.com/kubelvyq/image/upload/f_auto/pengurus/Ayu_Shanty_nj2rtv",
       bidang: "bidang-1-pendidikan-penalaran",
@@ -247,12 +253,6 @@ export const divisi: Divisi = {
       foto: "https://res.cloudinary.com/kubelvyq/image/upload/f_auto/pengurus/Bintang_lf1p57",
       bidang: "bidang-1-pendidikan-penalaran",
       jabatan: "staff",
-    },
-    {
-      nama: "Devina",
-      foto: "https://res.cloudinary.com/kubelvyq/image/upload/f_auto/pengurus/Dedep_vkdzgi",
-      bidang: "bidang-1-pendidikan-penalaran",
-      jabatan: "wakabid",
     },
     {
       nama: "Diva",
