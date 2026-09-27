@@ -67,7 +67,7 @@ function getArsipError(error: unknown, fallback: string) {
 
 function refreshArsipPages() {
   revalidatePath("/admin/arsip");
-  revalidatePath("/anggota/arsip-soal");
+  revalidatePath("/arsip");
 }
 
 export async function getArsip(filters: ArsipFilters = {}) {

@@ -9,7 +9,7 @@ export default async function ResetPasswordPage({
 }) {
   const params = await searchParams;
   if (params.recovery !== "1" && (await getCurrentUser())) {
-    redirect("/anggota");
+    redirect("/");
   }
   return <ResetForm />;
 }

@@ -47,7 +47,7 @@ function getQuizError(error: unknown, fallback: string) {
 
 function refreshQuizPages() {
   revalidatePath("/admin/mathquiz");
-  revalidatePath("/anggota/mathquiz");
+  revalidatePath("/mathquiz");
 }
 
 export async function getQuizAdminList() {

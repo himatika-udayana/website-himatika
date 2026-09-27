@@ -1,13 +1,17 @@
 import Link from "next/link";
+import { Lock } from "lucide-react";
 import {
   FiArrowRight as ArrowRight,
   FiClock as Clock,
   FiGlobe as Globe,
   FiMail as Mail,
   FiMapPin as MapPin,
+  FiMusic as Music,
   FiPhone as Phone,
   FiSend as Send,
+  FiYoutube as Youtube,
 } from "react-icons/fi";
+import { SiTiktok as Tiktok } from "react-icons/si";
 import {
   Accordion,
   AccordionContent,
@@ -29,7 +33,6 @@ export default async function HomePage() {
   const posts = getAllPosts().slice(0, 5);
   const user = await getCurrentUser();
   const isLoggedIn = Boolean(user);
-  const visiblePortalMenu = portalMenu.filter(({ requiresLogin }) => !requiresLogin || isLoggedIn);
   return (
     <main className="overflow-x-hidden bg-white">
       <style>{`@keyframes kenburns{0%{transform:scale(1)}100%{transform:scale(1.08)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}`}</style>
@@ -51,13 +54,6 @@ export default async function HomePage() {
             {beranda.visi}
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link
-              href={isLoggedIn ? "/anggota" : "/login"}
-              className="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-400 px-6 py-3 text-sm font-semibold text-white shadow-lg"
-            >
-              {isLoggedIn ? "Buka" : "Login"}{" "}
-              <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-            </Link>
             <Link
               href="/tentang-kami"
               className="inline-flex items-center justify-center rounded-xl border border-white/70 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
@@ -85,31 +81,31 @@ export default async function HomePage() {
             </p>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {visiblePortalMenu.map(({ title, description, href, icon: Icon }) => (
-              <Link
-                key={href}
-                href={href}
-                className="group flex h-full items-start gap-4 rounded-2xl bg-white p-5 shadow-sm transition hover:-translate-y-2 hover:shadow-lg"
-              >
-                <div
-                  className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-700"
+            {portalMenu.map(({ title, description, href, icon: Icon, requiresLogin }) => {
+              const loginRequired = requiresLogin && !isLoggedIn;
+              return (
+                <Link
+                  key={href}
+                  href={loginRequired ? "/login" : href}
+                  className="group flex h-full items-start gap-4 rounded-2xl bg-white p-5 shadow-sm transition hover:-translate-y-2 hover:shadow-lg"
                 >
-                  <Icon className="h-6 w-6" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-slate-900">
-                    {title}
-                  </h3>
-                  <p className="mt-1 text-sm leading-6 text-slate-600">
-                    {description}
-                  </p>
-                  <span className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-blue-600">
-                    Buka{" "}
-                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </Link>
-            ))}
+                  <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-700">
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
+                    <p className="mt-1 text-sm leading-6 text-slate-600">{description}</p>
+                    <span className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-blue-600">
+                      {loginRequired ? (
+                        <><Lock className="h-4 w-4" aria-hidden="true" />Login</>
+                      ) : (
+                        <>Buka <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></>
+                      )}
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </section>
       </Reveal>
@@ -245,6 +241,24 @@ export default async function HomePage() {
                 <p className="flex gap-3 text-sm text-slate-600">
                   <Globe className="h-5 w-5 flex-shrink-0 text-blue-700" />
                   {beranda.kontak.website}
+                </p>
+                <p className="flex gap-3 text-sm text-slate-600">
+                  <Music className="h-5 w-5 flex-shrink-0 text-blue-700" />
+                  <a href={beranda.kontak.spotifyUrl} target="_blank" rel="noreferrer" className="text-blue-700 hover:underline">
+                    {beranda.kontak.spotify}
+                  </a>
+                </p>
+                <p className="flex gap-3 text-sm text-slate-600">
+                  <Youtube className="h-5 w-5 flex-shrink-0 text-blue-700" />
+                  <a href="https://youtube.com/@HimatikaUdayana" target="_blank" rel="noreferrer" className="text-blue-700 hover:underline">
+                    {beranda.kontak.youtube}
+                  </a>
+                </p>
+                <p className="flex gap-3 text-sm text-slate-600">
+                  <Tiktok className="h-5 w-5 flex-shrink-0 text-blue-700" />
+                  <a href={`https://tiktok.com/@${beranda.kontak.tiktok.replace(/^@/, "")}`} target="_blank" rel="noreferrer" className="text-blue-700 hover:underline">
+                    {beranda.kontak.tiktok}
+                  </a>
                 </p>
                 <p className="flex gap-3 text-sm text-slate-600">
                   <Clock className="h-5 w-5 flex-shrink-0 text-blue-700" />

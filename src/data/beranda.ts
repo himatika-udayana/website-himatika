@@ -7,9 +7,13 @@ export const beranda: Beranda = {
   kontak: {
     alamat:
       "Jl. Raya Kampus Unud, Jimbaran, Kuta Selatan, Kabupaten Badung, Bali 80361",
-    email: "himatikasandya2024@gmail.com",
+    email: "aksaraharmoni2026@gmail.com",
     telepon: "+62 85-945-385-599 (Mang Sri)",
     instagram: "@himatika.udayana",
+    spotify: "himatika.udayana",
+    spotifyUrl: "https://open.spotify.com/show/074lCrniY8webmv3BlGLcw",
+    youtube: "Himatika Udayana",
+    tiktok: "himatikaudayana",
     website: "himatikaunud.com",
   },
 };

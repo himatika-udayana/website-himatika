@@ -36,7 +36,7 @@ function getMataKuliahError(error: unknown, fallback: string) {
 function refreshMataKuliahPages() {
   revalidatePath("/admin/arsip/mata-kuliah");
   revalidatePath("/admin/arsip");
-  revalidatePath("/anggota/arsip-soal");
+  revalidatePath("/arsip");
 }
 
 export async function getMataKuliahAdminList() {

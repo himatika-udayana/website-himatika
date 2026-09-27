@@ -153,7 +153,7 @@ export async function createKategori(
       data: normalizeKategori({ urutan, namaKategori, deskripsi }),
     });
     revalidatePath("/admin/rama/kategori");
-    revalidatePath("/anggota/rama");
+    revalidatePath("/rama");
     return { ok: true };
   } catch (error) {
     return {
@@ -179,7 +179,7 @@ export async function updateKategori(
       data: normalizeKategori(data),
     });
     revalidatePath("/admin/rama/kategori");
-    revalidatePath("/anggota/rama");
+    revalidatePath("/rama");
     return { ok: true };
   } catch (error) {
     return {
@@ -213,7 +213,7 @@ export async function deleteKategori(id: string): Promise<RamaAdminActionResult>
     );
 
     revalidatePath("/admin/rama/kategori");
-    revalidatePath("/anggota/rama");
+    revalidatePath("/rama");
     return { ok: true };
   } catch (error) {
     if (error instanceof KategoriMasihDipakaiError) {

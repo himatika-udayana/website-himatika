@@ -3,6 +3,6 @@ import { ForgotForm } from "@/src/components/public/auth-forms";
 import { getCurrentUser } from "@/src/lib/auth";
 
 export default async function ForgotPasswordPage() {
-  if (await getCurrentUser()) redirect("/anggota");
+  if (await getCurrentUser()) redirect("/");
   return <ForgotForm />;
 }

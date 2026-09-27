@@ -96,8 +96,8 @@ function getSoalError(error: unknown, fallback: string) {
 function refreshSoalPages(quizId: string) {
   revalidatePath(`/admin/mathquiz/${quizId}/soal`);
   revalidatePath("/admin/mathquiz");
-  revalidatePath(`/anggota/mathquiz/${quizId}`);
-  revalidatePath("/anggota/mathquiz");
+  revalidatePath(`/mathquiz/${quizId}`);
+  revalidatePath("/mathquiz");
 }
 
 export async function getSoal(quizId: string) {

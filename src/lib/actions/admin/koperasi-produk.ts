@@ -77,7 +77,7 @@ function getActionError(error: unknown, fallback: string) {
 
 function refreshKoperasiPages() {
   revalidatePath("/admin/koperasi");
-  revalidatePath("/anggota/koperasi");
+  revalidatePath("/koperasi");
 }
 
 export async function getProduk(): Promise<ProdukAdminRow[]> {

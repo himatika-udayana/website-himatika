@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { Lock } from "lucide-react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { beranda } from "@/src/data/beranda";
 import { portalMenu } from "@/src/data/portal-menu";
+import { logoutAction } from "@/src/lib/auth-actions";
 
 const navItems = [
   ["Beranda", "/"],
@@ -20,84 +22,144 @@ export function PublicShell({
   children: React.ReactNode;
   isLoggedIn: boolean;
 }) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const closeMenu = () => setIsMenuOpen(false);
   return (
     <div className="min-h-screen bg-white text-slate-900">
-      <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 shadow-sm backdrop-blur-xl">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-          <Link href="/" className="flex items-center gap-3">
-            <img
-              src="/images/LOGO.png"
-              alt="Logo HIMATIKA"
-              className="h-10 w-10 rounded-full object-cover"
-            />
-            <div>
-              <p className="text-base font-bold tracking-wide text-slate-900">
-                HIMATIKA
-              </p>
-              <p className="text-sm text-slate-500">Universitas Udayana</p>
-            </div>
-          </Link>
-          <div className="hidden items-center gap-8 lg:flex">
-            {navItems.map(([label, href]) => (
-              <Link
-                key={href}
-                href={href}
-                className="text-slate-600 transition-colors hover:text-blue-600"
-              >
-                {label}
-              </Link>
-            ))}
+      <PublicNavbar isLoggedIn={isLoggedIn} />
+      {children}
+      <Footer />
+    </div>
+  );
+}
+
+export function PublicNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const closeMenu = () => setIsMenuOpen(false);
+
+  return (
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 shadow-sm backdrop-blur-xl">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+        <Link href="/" className="flex items-center gap-3">
+          <img
+            src="/images/LOGO.png"
+            alt="Logo HIMATIKA"
+            className="h-10 w-10 rounded-full object-cover"
+          />
+          <div>
+            <p className="text-base font-bold tracking-wide text-slate-900">
+              HIMATIKA
+            </p>
+            <p className="text-sm text-slate-500">Universitas Udayana</p>
           </div>
-          <div className="flex items-center gap-3">
+        </Link>
+        <div className="hidden items-center gap-8 lg:flex">
+          {navItems.map(([label, href]) => (
             <Link
-              href={isLoggedIn ? "/anggota" : "/login"}
+              key={href}
+              href={href}
+              className="text-slate-600 transition-colors hover:text-blue-600"
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
+        <div className="flex items-center gap-3">
+          {!isLoggedIn ? (
+            <Link
+              href="/login"
               className="rounded-full border border-slate-300 px-5 py-2.5 text-sm font-medium text-slate-700 transition-all hover:border-blue-600 hover:text-blue-600"
             >
-              {isLoggedIn ? "Dashboard" : "Login"}
+              Login
             </Link>
+          ) : null}
+          {isLoggedIn ? (
+            <form action={logoutAction} className="hidden sm:block">
+              <button
+                type="submit"
+                className="rounded-full bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-blue-700"
+              >
+                Logout
+              </button>
+            </form>
+          ) : (
             <Link
               href="/register"
               className="hidden rounded-full bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:-translate-y-0.5 hover:bg-blue-700 sm:inline-flex"
             >
               Register
             </Link>
-            <button
-              type="button"
-              onClick={() => setIsMenuOpen((open) => !open)}
-              className="rounded-xl border border-slate-200 p-2 text-slate-700 hover:bg-slate-100 lg:hidden"
-              aria-label={isMenuOpen ? "Tutup menu navigasi" : "Buka menu navigasi"}
-              aria-expanded={isMenuOpen}
-            >
-              {isMenuOpen ? <FiX className="h-5 w-5" /> : <FiMenu className="h-5 w-5" />}
-            </button>
-          </div>
-        </nav>
-        {isMenuOpen ? (
-          <div className="border-t border-slate-200 bg-white px-4 py-4 lg:hidden">
-            <div className="mx-auto max-w-7xl space-y-1">
-              {navItems.map(([label, href]) => (
-                <Link key={href} href={href} onClick={closeMenu} className="block rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-700">
-                  {label}
+          )}
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            className="rounded-xl border border-slate-200 p-2 text-slate-700 hover:bg-slate-100 lg:hidden"
+            aria-label={isMenuOpen ? "Tutup menu navigasi" : "Buka menu navigasi"}
+            aria-expanded={isMenuOpen}
+          >
+            {isMenuOpen ? <FiX className="h-5 w-5" /> : <FiMenu className="h-5 w-5" />}
+          </button>
+        </div>
+      </nav>
+      {isMenuOpen ? (
+        <div className="border-t border-slate-200 bg-white px-4 py-4 lg:hidden">
+          <div className="mx-auto max-w-7xl space-y-1">
+            {navItems.map(([label, href]) => (
+              <Link
+                key={href}
+                href={href}
+                onClick={closeMenu}
+                className="block rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-700"
+              >
+                {label}
+              </Link>
+            ))}
+            {portalMenu.map(({ title, href, requiresLogin }) => {
+              const loginRequired = requiresLogin && !isLoggedIn;
+              return (
+                <Link
+                  key={href}
+                  href={loginRequired ? "/login" : href}
+                  onClick={closeMenu}
+                  className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-700"
+                >
+                  {loginRequired ? <Lock className="h-4 w-4" aria-hidden="true" /> : null}
+                  {loginRequired ? "Login · " : ""}{title}
                 </Link>
-              ))}
-              {isLoggedIn ? portalMenu.filter(({ requiresLogin }) => requiresLogin).map(({ title, href }) => (
-                <Link key={href} href={href} onClick={closeMenu} className="block rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-700">
-                  {title}
-                </Link>
-              )) : null}
-              <div className="flex gap-2 pt-2">
-                <Link href={isLoggedIn ? "/anggota" : "/login"} onClick={closeMenu} className="flex-1 rounded-lg border border-slate-300 px-4 py-2.5 text-center text-sm font-medium text-slate-700">{isLoggedIn ? "Dashboard" : "Login"}</Link>
-                <Link href="/register" onClick={closeMenu} className="flex-1 rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white">Register</Link>
-              </div>
+              );
+            })}
+            <div className="flex gap-2 pt-2">
+              {isLoggedIn ? (
+                <form action={logoutAction} className="flex-1">
+                  <button
+                    type="submit"
+                    onClick={closeMenu}
+                    className="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white"
+                  >
+                    Logout
+                  </button>
+                </form>
+              ) : (
+                <>
+                  <Link
+                    href="/login"
+                    onClick={closeMenu}
+                    className="flex-1 rounded-lg border border-slate-300 px-4 py-2.5 text-center text-sm font-medium text-slate-700"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/register"
+                    onClick={closeMenu}
+                    className="flex-1 rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white"
+                  >
+                    Register
+                  </Link>
+                </>
+              )}
             </div>
           </div>
-        ) : null}
-      </header>
-      {children}
-      <Footer />
-    </div>
+        </div>
+      ) : null}
+    </header>
   );
 }
 
@@ -106,6 +168,8 @@ export function Footer() {
     ? beranda.kontak.website
     : `https://${beranda.kontak.website}`;
   const instagramUsername = beranda.kontak.instagram.replace(/^@/, "");
+  const tiktokUsername = beranda.kontak.tiktok.replace(/^@/, "");
+  const tiktokUrl = `https://tiktok.com/@${tiktokUsername}`;
 
   return (
     <footer className="border-t border-slate-200 bg-slate-950 text-slate-300">
@@ -152,6 +216,21 @@ export function Footer() {
                 className="text-blue-300 hover:text-white"
               >
                 {beranda.kontak.instagram}
+              </a>
+            </li>
+            <li>
+              <a href={beranda.kontak.spotifyUrl} target="_blank" rel="noreferrer" className="text-blue-300 hover:text-white">
+                {beranda.kontak.spotify}
+              </a>
+            </li>
+            <li>
+              <a href="https://youtube.com/@HimatikaUdayana" target="_blank" rel="noreferrer" className="text-blue-300 hover:text-white">
+                {beranda.kontak.youtube}
+              </a>
+            </li>
+            <li>
+              <a href={tiktokUrl} target="_blank" rel="noreferrer" className="text-blue-300 hover:text-white">
+                {beranda.kontak.tiktok}
               </a>
             </li>
             <li>

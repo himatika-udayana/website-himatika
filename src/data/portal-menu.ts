@@ -35,7 +35,7 @@ export const portalMenu = [
     title: "RAMA",
     description: "Rumah Aspirasi Mahasiswa Matematika.",
     icon: MessageCircleHeart,
-    href: "/anggota/rama",
+    href: "/rama",
     requiresLogin: true,
   },
   {
@@ -49,7 +49,7 @@ export const portalMenu = [
     title: "Koperasi",
     description: "Layanan koperasi mahasiswa.",
     icon: ShoppingBag,
-    href: "/anggota/koperasi",
+    href: "/koperasi",
     requiresLogin: true,
   },
 ] as const;

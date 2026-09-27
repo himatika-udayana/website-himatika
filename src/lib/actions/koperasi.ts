@@ -1,8 +1,10 @@
 "use server";
 
 import { prisma } from "@/src/lib/prisma";
+import { requireVerifiedUser } from "@/src/lib/auth";
 
 export async function getProdukList() {
+  await requireVerifiedUser();
   const products = await prisma.produkKoperasi.findMany({
     orderBy: { namaProduk: "asc" },
   });

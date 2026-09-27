@@ -107,13 +107,6 @@ export interface Divisi {
   programKerja: ProgramKerja[];
 }
 
-export interface StatistikBeranda {
-  statistik1: StatistikWebsite;
-  statistik2: StatistikWebsite;
-  statistik3: StatistikWebsite;
-  statistik4: StatistikWebsite;
-}
-
 export interface Beranda {
   namaWebsite: string;
   visi: string;
@@ -123,6 +116,10 @@ export interface Beranda {
     email: string;
     telepon: string;
     instagram: string;
+    spotify: string;
+    spotifyUrl: string;
+    youtube: string;
+    tiktok: string;
     website: string;
   };
 }
