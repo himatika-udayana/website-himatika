@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { Lock } from "lucide-react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { beranda } from "@/src/data/beranda";
@@ -9,11 +9,9 @@ import { portalMenu } from "@/src/data/portal-menu";
 import { logoutAction } from "@/src/lib/auth-actions";
 
 const navItems = [
-  ["Beranda", "/"],
-  ["Tentang Kami", "/tentang-kami"],
-  ["Divisi", "/divisi"],
-  ["Blog", "/blog"],
-] as const;
+  { title: "Beranda", href: "/", requiresLogin: false },
+  ...portalMenu.filter(({ requiresLogin }) => !requiresLogin),
+];
 
 export function PublicShell({
   children,
@@ -52,13 +50,13 @@ export function PublicNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
           </div>
         </Link>
         <div className="hidden items-center gap-8 lg:flex">
-          {navItems.map(([label, href]) => (
+          {navItems.map(({ title, href }) => (
             <Link
               key={href}
               href={href}
               className="text-slate-600 transition-colors hover:text-blue-600"
             >
-              {label}
+              {title}
             </Link>
           ))}
         </div>
@@ -72,14 +70,10 @@ export function PublicNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
             </Link>
           ) : null}
           {isLoggedIn ? (
-            <form action={logoutAction} className="hidden sm:block">
-              <button
-                type="submit"
-                className="rounded-full bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-blue-700"
-              >
-                Logout
-              </button>
-            </form>
+            <LogoutForm
+              className="hidden sm:block"
+              buttonClassName="rounded-full bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-blue-700 disabled:opacity-60"
+            />
           ) : (
             <Link
               href="/register"
@@ -102,17 +96,17 @@ export function PublicNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
       {isMenuOpen ? (
         <div className="border-t border-slate-200 bg-white px-4 py-4 lg:hidden">
           <div className="mx-auto max-w-7xl space-y-1">
-            {navItems.map(([label, href]) => (
+            {navItems.map(({ title, href }) => (
               <Link
                 key={href}
                 href={href}
                 onClick={closeMenu}
                 className="block rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-700"
               >
-                {label}
+                {title}
               </Link>
             ))}
-            {portalMenu.map(({ title, href, requiresLogin }) => {
+            {portalMenu.filter(({ requiresLogin }) => requiresLogin).map(({ title, href, requiresLogin }) => {
               const loginRequired = requiresLogin && !isLoggedIn;
               return (
                 <Link
@@ -128,15 +122,10 @@ export function PublicNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
             })}
             <div className="flex gap-2 pt-2">
               {isLoggedIn ? (
-                <form action={logoutAction} className="flex-1">
-                  <button
-                    type="submit"
-                    onClick={closeMenu}
-                    className="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white"
-                  >
-                    Logout
-                  </button>
-                </form>
+                <LogoutForm
+                  className="flex-1"
+                  buttonClassName="w-full rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white disabled:opacity-60"
+                />
               ) : (
                 <>
                   <Link
@@ -160,6 +149,29 @@ export function PublicNavbar({ isLoggedIn }: { isLoggedIn: boolean }) {
         </div>
       ) : null}
     </header>
+  );
+}
+
+function LogoutForm({
+  className,
+  buttonClassName,
+}: {
+  className: string;
+  buttonClassName: string;
+}) {
+  const [state, formAction, pending] = useActionState(logoutAction, {});
+
+  return (
+    <form action={formAction} className={className}>
+      <button type="submit" disabled={pending} className={buttonClassName}>
+        {pending ? "Memproses..." : "Logout"}
+      </button>
+      {state.error ? (
+        <p role="alert" className="mt-2 text-sm text-red-600">
+          {state.error}
+        </p>
+      ) : null}
+    </form>
   );
 }
 
@@ -193,10 +205,10 @@ export function Footer() {
         <div>
           <h3 className="text-lg font-semibold text-white">Navigasi</h3>
           <ul className="mt-5 space-y-3 text-sm text-slate-400">
-            {navItems.map(([label, href]) => (
+            {navItems.map(({ title, href }) => (
               <li key={href}>
                 <Link href={href} className="transition hover:text-white">
-                  {label}
+                  {title}
                 </Link>
               </li>
             ))}

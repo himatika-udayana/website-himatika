@@ -177,9 +177,18 @@ export async function registerAction(_prevState: ActionState, formData: FormData
   redirect("/login?registered=1");
 }
 
-export async function logoutAction() {
-  const supabase = await createServerClient();
-  await supabase.auth.signOut();
+export async function logoutAction(_prevState: ActionState, _formData: FormData): Promise<ActionState> {
+  try {
+    const supabase = await createServerClient();
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      return { error: "Logout gagal. Silakan coba lagi." };
+    }
+  } catch {
+    return { error: "Logout gagal karena terjadi kesalahan. Silakan coba lagi." };
+  }
+
   redirect("/login");
 }
 
