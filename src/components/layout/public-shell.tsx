@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { beranda } from "@/src/data/beranda";
+import { portalMenu } from "@/src/data/portal-menu";
 
 const navItems = [
   ["Beranda", "/"],
@@ -12,7 +13,13 @@ const navItems = [
   ["Blog", "/blog"],
 ] as const;
 
-export function PublicShell({ children }: { children: React.ReactNode }) {
+export function PublicShell({
+  children,
+  isLoggedIn,
+}: {
+  children: React.ReactNode;
+  isLoggedIn: boolean;
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const closeMenu = () => setIsMenuOpen(false);
   return (
@@ -45,10 +52,10 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
           </div>
           <div className="flex items-center gap-3">
             <Link
-              href="/login"
+              href={isLoggedIn ? "/anggota" : "/login"}
               className="rounded-full border border-slate-300 px-5 py-2.5 text-sm font-medium text-slate-700 transition-all hover:border-blue-600 hover:text-blue-600"
             >
-              Login
+              {isLoggedIn ? "Dashboard" : "Login"}
             </Link>
             <Link
               href="/register"
@@ -75,8 +82,13 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
                   {label}
                 </Link>
               ))}
+              {isLoggedIn ? portalMenu.filter(({ requiresLogin }) => requiresLogin).map(({ title, href }) => (
+                <Link key={href} href={href} onClick={closeMenu} className="block rounded-lg px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-blue-50 hover:text-blue-700">
+                  {title}
+                </Link>
+              )) : null}
               <div className="flex gap-2 pt-2">
-                <Link href="/login" onClick={closeMenu} className="flex-1 rounded-lg border border-slate-300 px-4 py-2.5 text-center text-sm font-medium text-slate-700">Login</Link>
+                <Link href={isLoggedIn ? "/anggota" : "/login"} onClick={closeMenu} className="flex-1 rounded-lg border border-slate-300 px-4 py-2.5 text-center text-sm font-medium text-slate-700">{isLoggedIn ? "Dashboard" : "Login"}</Link>
                 <Link href="/register" onClick={closeMenu} className="flex-1 rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white">Register</Link>
               </div>
             </div>

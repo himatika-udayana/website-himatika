@@ -21,11 +21,15 @@ import { faq } from "@/src/data/faq";
 import { portalMenu } from "@/src/data/portal-menu";
 import { getAllPosts } from "@/src/lib/blog";
 import { PostTypeBadge } from "@/src/components/public/post-type-details";
+import { getCurrentUser } from "@/src/lib/auth";
 
 const mapEmbed =
   "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2707.949100937901!2d115.17011348708772!3d-8.799166212800733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd244bc3acab8d9%3A0x7fba454d24527b74!2sFakultas%20Matematika%20dan%20Ilmu%20Pengetahuan%20Alam!5e0!3m2!1sid!2sid!4v1786333704890!5m2!1sid!2sid";
-export default function HomePage() {
+export default async function HomePage() {
   const posts = getAllPosts().slice(0, 5);
+  const user = await getCurrentUser();
+  const isLoggedIn = Boolean(user);
+  const visiblePortalMenu = portalMenu.filter(({ requiresLogin }) => !requiresLogin || isLoggedIn);
   return (
     <main className="overflow-x-hidden bg-white">
       <style>{`@keyframes kenburns{0%{transform:scale(1)}100%{transform:scale(1.08)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}`}</style>
@@ -48,11 +52,17 @@ export default function HomePage() {
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
-              href="/tentang-kami"
+              href={isLoggedIn ? "/anggota" : "/login"}
               className="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-400 px-6 py-3 text-sm font-semibold text-white shadow-lg"
             >
-              Pelajari Lebih Lanjut{" "}
+              {isLoggedIn ? "Buka" : "Login"}{" "}
               <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+            </Link>
+            <Link
+              href="/tentang-kami"
+              className="inline-flex items-center justify-center rounded-xl border border-white/70 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
+            >
+              Pelajari Lebih Lanjut
             </Link>
           </div>
         </div>
@@ -75,7 +85,7 @@ export default function HomePage() {
             </p>
           </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {portalMenu.map(({ title, description, href, icon: Icon }) => (
+            {visiblePortalMenu.map(({ title, description, href, icon: Icon }) => (
               <Link
                 key={href}
                 href={href}
@@ -111,7 +121,7 @@ export default function HomePage() {
                 Tentang Kami <span className="text-blue-600">HIMATIKA</span>
               </h2>
               <p className="mt-4 text-justify leading-relaxed text-slate-700">
-                "Program Studi Matematika FMIPA Universitas Udayana resmi memperoleh izin penyelenggaraan melalui SK Dirjen Dikti Nomor 2843/D/T/2001 pada 31 Agustus 2001 dan mulai menerima mahasiswa angkatan pertama pada tahun akademik 2001/2002. Sejak berdiri, program studi ini telah melalui berbagai proses evaluasi, perpanjangan izin, dan akreditasi untuk meningkatkan mutu pendidikan. Akreditasi pertama diperoleh pada tahun 2008 dengan peringkat B, yang kemudian diperpanjang pada tahun 2013 dan 2018. Selanjutnya, berdasarkan keputusan LAMSAMA Nomor 079/SK/LAMSAMA/Akred/S/VII/2023, Program Studi Matematika Universitas Udayana memperoleh akreditasi Baik Sekali yang berlaku mulai 31 Juli 2023 hingga 31 Juli 2028.
+                &quot;Program Studi Matematika FMIPA Universitas Udayana resmi memperoleh izin penyelenggaraan melalui SK Dirjen Dikti Nomor 2843/D/T/2001 pada 31 Agustus 2001 dan mulai menerima mahasiswa angkatan pertama pada tahun akademik 2001/2002. Sejak berdiri, program studi ini telah melalui berbagai proses evaluasi, perpanjangan izin, dan akreditasi untuk meningkatkan mutu pendidikan. Akreditasi pertama diperoleh pada tahun 2008 dengan peringkat B, yang kemudian diperpanjang pada tahun 2013 dan 2018. Selanjutnya, berdasarkan keputusan LAMSAMA Nomor 079/SK/LAMSAMA/Akred/S/VII/2023, Program Studi Matematika Universitas Udayana memperoleh akreditasi Baik Sekali yang berlaku mulai 31 Juli 2023 hingga 31 Juli 2028.&quot;
               </p>
             </div>
             <Link

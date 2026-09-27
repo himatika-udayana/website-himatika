@@ -3,6 +3,6 @@ import { RegisterForm } from "@/src/components/public/auth-forms";
 import { getCurrentUser } from "@/src/lib/auth";
 
 export default async function RegisterPage() {
-  if (await getCurrentUser()) redirect("/anggota");
+  if (await getCurrentUser()) redirect("/");
   return <RegisterForm />;
 }
