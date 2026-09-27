@@ -65,7 +65,7 @@ export interface ProfilOrganisasi {
   }[];
 }
 
-export interface TentangHimatika extends ProfilOrganisasi {}
+export type TentangHimatika = ProfilOrganisasi;
 
 export type Bidang =
   | "inti"
