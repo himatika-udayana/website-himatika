@@ -13,10 +13,12 @@ enum Role {
   ADMIN
 }
 
-enum StatusAnggota {
-  PENGURUS
-  ANGGOTA
-  ALUMNI
+enum Modul {
+  RAMA
+  MATHQUIZ
+  KOPERASI
+  REDIRECT_LINK
+  ARSIP
 }
 
 enum StatusSemester {
@@ -56,17 +58,13 @@ enum SemesterArsip {
 }
 
 model User {
-  id         String        @id @db.Uuid
-  email      String        @unique
-  nim        String?       @unique
-  fullName   String        @map("full_name")
-  avatarUrl  String?       @map("avatar_url")
-  angkatan   Int?
-  role       Role          @default(ANGGOTA)
-  status     StatusAnggota @default(ANGGOTA)
-  isVerified Boolean       @default(false) @map("is_verified")
-  divisiSlug String?       @map("divisi_slug")
-  jabatan    String?
+  id           String   @id @db.Uuid
+  email        String   @unique
+  nim          String?  @unique
+  fullName     String   @map("full_name")
+  angkatan     Int?
+  role         Role     @default(ANGGOTA)
+  moduleAccess Modul[]  @default([]) @map("module_access")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

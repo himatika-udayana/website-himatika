@@ -149,10 +149,6 @@ export async function main() {
           nim: user.nim ?? null,
           angkatan: Number(user.angkatan ?? 0) || null,
           role: "ANGGOTA",
-          status: "ANGGOTA",
-          isVerified: Boolean(user.is_verified),
-          divisiSlug: null,
-          jabatan: null,
         },
       });
 

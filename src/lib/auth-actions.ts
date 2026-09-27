@@ -68,15 +68,12 @@ async function upsertProfileFromSupabase(userId: string, email: string, fullName
     update: {
       email,
       fullName,
-      isVerified: true,
     },
     create: {
       id: userId,
       email,
       fullName,
       role: "ANGGOTA",
-      status: "ANGGOTA",
-      isVerified: true,
       nim: null,
       angkatan: null,
     },
@@ -166,8 +163,6 @@ export async function registerAction(_prevState: ActionState, formData: FormData
       nim,
       angkatan: Number(angkatan),
       role: "ANGGOTA",
-      status: "ANGGOTA",
-      isVerified: false,
     },
     create: {
       id: data.user.id,
@@ -176,8 +171,6 @@ export async function registerAction(_prevState: ActionState, formData: FormData
       nim,
       angkatan: Number(angkatan),
       role: "ANGGOTA",
-      status: "ANGGOTA",
-      isVerified: false,
     },
   });
 
