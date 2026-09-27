@@ -80,7 +80,7 @@ function ErrorMessage({ message }: { message?: string }) {
   ) : null;
 }
 
-export function LoginForm() {
+export function LoginForm({ initialError }: { initialError?: string }) {
   const [state, formAction, pending] = useActionState(
     loginAction,
     initialState,
@@ -164,7 +164,7 @@ export function LoginForm() {
               <Checkbox name="remember" />
               Ingat saya di perangkat ini
             </label>
-            <ErrorMessage message={state.error} />
+            <ErrorMessage message={state.error || initialError} />
             <Button
               type="submit"
               className="w-full rounded-xl"
