@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Lock } from "lucide-react";
 import {
   FiArrowRight as ArrowRight,
+  FiChevronDown as ChevronDown,
   FiClock as Clock,
   FiGlobe as Globe,
   FiMail as Mail,
@@ -12,12 +13,6 @@ import {
   FiYoutube as Youtube,
 } from "react-icons/fi";
 import { SiTiktok as Tiktok } from "react-icons/si";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/src/components/ui/accordion";
 import { Card } from "@/src/components/ui/card";
 import { Reveal } from "@/src/components/ui/reveal";
 import { beranda } from "@/src/data/beranda";
@@ -198,18 +193,22 @@ export default async function HomePage() {
         </Reveal>
         <Reveal delay={150} className="mt-10">
           <Card className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <Accordion>
-              {faq.map((item, index) => (
-                <AccordionItem key={item.pertanyaan} value={`faq-${index}`}>
-                  <AccordionTrigger className="text-left font-semibold text-slate-900 hover:text-blue-600">
+            <div className="flex w-full flex-col">
+              {faq.map((item) => (
+                <details key={item.pertanyaan} className="group not-last:border-b">
+                  <summary className="flex cursor-pointer list-none items-start justify-between gap-4 rounded-lg border border-transparent py-2.5 text-left text-sm font-semibold text-slate-900 transition-all hover:text-blue-600 hover:underline [&::-webkit-details-marker]:hidden">
                     {item.pertanyaan}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-slate-600">
+                    <ChevronDown
+                      aria-hidden="true"
+                      className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180"
+                    />
+                  </summary>
+                  <div className="pb-2.5 text-sm text-slate-600">
                     {item.jawaban}
-                  </AccordionContent>
-                </AccordionItem>
+                  </div>
+                </details>
               ))}
-            </Accordion>
+            </div>
           </Card>
         </Reveal>
       </section>
